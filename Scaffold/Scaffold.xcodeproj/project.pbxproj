@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15A034282D98D662000726BC /* BlockCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A034272D98D662000726BC /* BlockCreationView.swift */; };
 		15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */; };
 		15E335FA2D98B7AD000444F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E335F92D98B7AD000444F5 /* ContentView.swift */; };
 		15E335FC2D98B7B0000444F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15E335FB2D98B7B0000444F5 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15A034272D98D662000726BC /* BlockCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCreationView.swift; sourceTree = "<group>"; };
 		15E335F42D98B7AD000444F5 /* Scaffold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scaffold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldApp.swift; sourceTree = "<group>"; };
 		15E335F92D98B7AD000444F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				15E336272D98BA1C000444F5 /* DayView.swift */,
 				15E336292D98BA28000444F5 /* TimelineView.swift */,
 				15E3362C2D98BA40000444F5 /* BlockView.swift */,
+				15A034272D98D662000726BC /* BlockCreationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				15E336282D98BA1C000444F5 /* DayView.swift in Sources */,
 				15E336252D98B8B0000444F5 /* Block.swift in Sources */,
 				15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */,
+				15A034282D98D662000726BC /* BlockCreationView.swift in Sources */,
 				15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */,
 				15E336232D98B855000444F5 /* Day.swift in Sources */,
 			);

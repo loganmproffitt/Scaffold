@@ -1,6 +1,6 @@
 import Foundation
 
-struct Block: Identifiable {
+struct Block: Identifiable, Equatable {
     let id = UUID()
     var name: String
     var description: String?
