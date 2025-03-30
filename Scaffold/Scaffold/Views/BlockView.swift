@@ -2,7 +2,7 @@ import SwiftUI
 
 struct BlockView: View {
     var block: Block
-    var onEdit: (() -> Void)? = nil
+    var onEdit: ((Block) -> Void)? = nil
     var onTap: (() -> Void)? = nil
 
     var body: some View {
@@ -23,19 +23,19 @@ struct BlockView: View {
             Spacer()
 
             Button(action: {
-                onEdit?()
+                onEdit?(block)
             }) {
                 Image(systemName: "pencil")
                     .font(.caption)
                     .foregroundColor(.white)
                     .padding(6)
             }
-            .background(Color.black.opacity(0.2))
             .clipShape(Circle())
         }
         .padding(6)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 6).fill(Color.blue))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+        .opacity(1)
         .onTapGesture {
             onTap?()
         }
