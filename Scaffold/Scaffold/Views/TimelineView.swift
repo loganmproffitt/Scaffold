@@ -16,7 +16,8 @@ struct TimelineView: View {
 
     @State private var draggingBlockID: UUID?
     @State private var dragOffsetY: CGFloat = 0
-    @State private var ghostBlock: Block?
+    @State private var resizingStartTime: Date?
+    @State private var resizingEndTime: Date?
 
     func dateFor(hour: Int, minute: Int) -> Date {
         Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
@@ -64,69 +65,99 @@ struct TimelineView: View {
                         .offset(x: 0, y: y - 6)
                 }
 
-                // MARK: - Ghost Block
-                if let ghost = ghostBlock, let start = ghost.startTime, let end = ghost.endTime {
-                    let yOffset = yPosition(for: start)
+                // MARK: - Ghost Outline for Resize Snap
+                if let start = resizingStartTime, let end = resizingEndTime {
+                    let y = yPosition(for: start)
                     let height = heightForDuration(start: start, end: end)
                     let width = geometry.size.width - 70
 
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.blue.opacity(0.2))
+                        .stroke(Color.blue.opacity(0.5), style: StrokeStyle(lineWidth: 2, dash: [5]))
                         .frame(width: width, height: height)
-                        .offset(x: blockXOffset, y: yOffset)
+                        .offset(x: blockXOffset, y: y)
                 }
 
                 // MARK: - Real Blocks
-                ForEach(blocks) { block in
-                    if let start = block.startTime, let end = block.endTime {
-                        let yOffset = yPosition(for: start)
-                        let height = heightForDuration(start: start, end: end)
-                        let width = geometry.size.width - 70
-                        let isDragging = draggingBlockID == block.id
+                ForEach(blocks.filter { $0.startTime != nil && $0.endTime != nil }) { block in
+                    let originalStart = block.startTime!
+                    let originalEnd = block.endTime!
 
-                        BlockView(
-                            block: block,
-                            onEdit: { _ in onEditBlock?(block) },
-                            onTap: { onStartBlock?(block) }
-                        )
-                            .scaleEffect(isDragging ? 1.03 : 1)
-                            .opacity(isDragging ? 0.9 : 1)
-                            .shadow(radius: isDragging ? 4 : 0)
-                            .frame(width: width, height: height)
-                            .offset(x: blockXOffset, y: isDragging ? yOffset + dragOffsetY : yOffset)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        draggingBlockID = block.id
-                                        dragOffsetY = value.translation.height
+                    let isDragging = draggingBlockID == block.id
 
-                                        let newStartY = yOffset + value.translation.height
-                                        let minutesFromTop = newStartY / hourHeight * 60
-                                        var newStartTime = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
+                    let yOffset = yPosition(for: originalStart)
+                    let height = heightForDuration(start: originalStart, end: originalEnd)
+                    let width = geometry.size.width - 70
 
-                                        if isSnappingEnabled {
-                                            newStartTime = snappedDate(newStartTime)
-                                        }
+                    BlockView(
+                        block: block,
+                        onEdit: { _ in onEditBlock?(block) },
+                        onTap: { onStartBlock?(block) },
+                        onResizeTop: { delta in
+                            draggingBlockID = block.id
+                            let newY = yPosition(for: originalStart) + delta
+                            let minutesFromTop = newY / hourHeight * 60
+                            let newStart = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
 
-                                        let duration = Calendar.current.dateComponents([.minute], from: start, to: end).minute ?? 60
-                                        let newEndTime = Calendar.current.date(byAdding: .minute, value: duration, to: newStartTime)!
+                            if newStart < originalEnd {
+                                resizingStartTime = snappedDate(newStart)
+                                resizingEndTime = originalEnd
+                            }
+                        },
+                        onResizeBottom: { delta in
+                            draggingBlockID = block.id
+                            let newY = yPosition(for: originalStart) + height + delta
+                            let minutesFromTop = newY / hourHeight * 60
+                            let newEnd = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
 
-                                        ghostBlock = Block(name: block.name, startTime: newStartTime, endTime: newEndTime)
-                                    }
-                                    .onEnded { value in
-                                        if let ghost = ghostBlock,
-                                           let newStartTime = ghost.startTime,
-                                           let newEndTime = ghost.endTime {
-                                            onMoveBlock?(block.id, newStartTime, newEndTime)
-                                        }
+                            if newEnd > originalStart {
+                                resizingStartTime = originalStart
+                                resizingEndTime = snappedDate(newEnd)
+                            }
+                        },
+                        onMove: { drag in
+                            draggingBlockID = block.id
+                            dragOffsetY = drag
+                        }
+                    )
+                    .opacity(isDragging ? 0.9 : 1)
+                    .shadow(radius: isDragging ? 4 : 0)
+                    .frame(width: width, height: height)
+                    .offset(x: blockXOffset, y: yOffset + (isDragging ? dragOffsetY : 0))
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                draggingBlockID = block.id
+                                dragOffsetY = value.translation.height
+                            }
+                            .onEnded { value in
+                                let newY = yOffset + value.translation.height
+                                let minutesFromTop = newY / hourHeight * 60
+                                var newStart = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
+                                if isSnappingEnabled {
+                                    newStart = snappedDate(newStart)
+                                }
 
-                                        // Reset drag state
-                                        draggingBlockID = nil
-                                        dragOffsetY = 0
-                                        ghostBlock = nil
-                                    }
-                            )
-                    }
+                                let duration = Calendar.current.dateComponents([.minute], from: originalStart, to: originalEnd).minute ?? 60
+                                let newEnd = Calendar.current.date(byAdding: .minute, value: duration, to: newStart)!
+
+                                onMoveBlock?(block.id, newStart, newEnd)
+
+                                draggingBlockID = nil
+                                dragOffsetY = 0
+                            }
+                    )
+                    .simultaneousGesture(
+                        DragGesture()
+                            .onEnded { _ in
+                                if let s = resizingStartTime, let e = resizingEndTime {
+                                    onMoveBlock?(block.id, s, e)
+                                }
+
+                                resizingStartTime = nil
+                                resizingEndTime = nil
+                                draggingBlockID = nil
+                            }
+                    )
                 }
             }
             .padding(.top, 5)
