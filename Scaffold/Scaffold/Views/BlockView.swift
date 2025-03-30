@@ -26,6 +26,12 @@ struct BlockView: View {
                 // Main Content (Move Gesture Here)
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
+                        if let start = block.startTime, let end = block.endTime {
+                            Text("\(formattedTime(start)) – \(formattedTime(end))")
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+
                         Text(block.name)
                             .font(.caption)
                             .bold()
@@ -76,5 +82,11 @@ struct BlockView: View {
         .onTapGesture {
             onTap?()
         }
+    }
+
+    func formattedTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: date)
     }
 }
