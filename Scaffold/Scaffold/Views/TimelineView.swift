@@ -2,6 +2,8 @@ import SwiftUI
 
 struct TimelineView: View {
     var onHourTap: ((Date) -> Void)? = nil
+    var onEditBlock: ((Block) -> Void)? = nil
+    var onStartBlock: ((Block) -> Void)? = nil
     var blocks: [Block]
 
     let startHour = 6
@@ -54,7 +56,15 @@ struct TimelineView: View {
                             let width = geometry.size.width - 70
                             
                             
-                            BlockView(block: block)
+                            BlockView(
+                                block: block,
+                                onEdit: {
+                                   onEditBlock?(block)
+                                },
+                                onTap: {
+                                    onStartBlock?(block)
+                                }
+                            )
                                 .frame(width: width, height: height)
                                 .offset(x: blockXOffset, y: yOffset)
                         }

@@ -2,8 +2,8 @@ import SwiftUI
 
 struct DayView: View {
     @ObservedObject var day: Day
-    @State var selectedTime: Date? = nil
-    @State var showBlockCreator = false
+    
+    @State private var activeBlock: Block? = nil
     
     func formattedDate(_ date: Date) -> String {
          let formatter = DateFormatter()
@@ -19,15 +19,36 @@ struct DayView: View {
             ZStack(alignment: .bottomTrailing) {
                 TimelineView(
                     onHourTap: { time in
-                        selectedTime = time
-                        showBlockCreator = true
+                        let newBlock = Block(
+                            name: "",
+                            startTime: time,
+                            endTime: Calendar.current.date(byAdding: .minute, value: 60, to: time),
+                            isTimeSensitive: false,
+                            isRigid: false,
+                            isCompleted: false
+                        )
+                        activeBlock = newBlock
+                    },
+                    onEditBlock: { block in
+                        activeBlock = block
+                    },
+                    onStartBlock: { block in
+                        print("Started block: \(block.name)")
                     },
                     blocks: day.blocks
                 )
                 
                 Button(action: {
-                    selectedTime = nil
-                    showBlockCreator = true
+                    let now = Date()
+                    let newBlock = Block(
+                        name: "",
+                        startTime: now,
+                        endTime: Calendar.current.date(byAdding: .minute, value: 60, to: now),
+                        isTimeSensitive: false,
+                        isRigid: false,
+                        isCompleted: false
+                    )
+                    activeBlock = newBlock
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(Color.white)
@@ -36,14 +57,27 @@ struct DayView: View {
                         .background(Color.blue)
                         .clipShape(Circle())
                 }
-                .padding()
             }
-            .sheet(isPresented: $showBlockCreator) {
-                BlockCreationView(start: selectedTime) { newBlock in
-                    print("🧱 New block created: \(newBlock.name), from \(newBlock.startTime!) to \(newBlock.endTime!)")
-                    day.blocks.append(newBlock)
-                }
+            .sheet(item: $activeBlock) { block in
+                let isNew = !day.blocks.contains(where: { $0.id == block.id })
+                BlockCreationView(
+                    block: block,
+                    isNew: isNew,
+                    onSave: { updated in
+                        if let index = day.blocks.firstIndex(where: { $0.id == updated.id }) {
+                            day.blocks[index] = updated
+                        } else {
+                            day.blocks.append(updated)
+                        }
+                        activeBlock = nil
+                    },
+                    onDelete: {
+                        day.blocks.removeAll { $0.id == block.id }
+                        activeBlock = nil
+                    }
+                )
             }
+
         }
     }
 }

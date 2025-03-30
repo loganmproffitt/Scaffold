@@ -1,67 +1,64 @@
 import SwiftUI
 
 struct BlockCreationView: View {
-    @Environment(\.dismiss) var dismiss
-
+    var block: Block
+    var isNew: Bool = false
     var onSave: (Block) -> Void
+    var onDelete: (() -> Void)? = nil
 
-    @State private var block: Block
+    @Environment(\.dismiss) var dismiss
+    @State private var editableBlock: Block
 
-    init(start: Date? = nil, onSave: @escaping (Block) -> Void) {
-        let now = Date()
-        let calendar = Calendar.current
-        let defaultStart = start ?? calendar.date(
-                bySettingHour: 12,
-                minute: 0,
-                second: 0,
-                of: now
-            ) ?? now
-        let defaultEnd = Calendar.current.date(byAdding: .minute, value: 60, to: defaultStart) ?? now.addingTimeInterval(3600)
-
-        let initialBlock = Block(
-            name: "",
-            startTime: defaultStart,
-            endTime: defaultEnd,
-            isTimeSensitive: false,
-            isRigid: false,
-            isCompleted: false
-        )
-
-        _block = State(initialValue: initialBlock)
+    init(block: Block, isNew: Bool = false, onSave: @escaping (Block) -> Void, onDelete: (() -> Void)? = nil) {
+        self.block = block
+        self.isNew = isNew
         self.onSave = onSave
+        self.onDelete = onDelete
+        _editableBlock = State(initialValue: block)
     }
+
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Block Details")) {
-                    TextField("Block name", text: $block.name)
+                    TextField("Block name", text: $editableBlock.name)
 
-                    DatePicker("Start Time", selection: Binding(
-                        get: { block.startTime ?? Date() },
-                        set: { block.startTime = $0 }
+                    DatePicker("Start Time", selection: Binding<Date>(
+                        get: { editableBlock.startTime ?? Date() },
+                        set: { editableBlock.startTime = $0 }
                     ), displayedComponents: .hourAndMinute)
 
-                    DatePicker("End Time", selection: Binding(
-                        get: { block.endTime ?? Date() },
-                        set: { block.endTime = $0 }
+                    DatePicker("End Time", selection: Binding<Date>(
+                        get: { editableBlock.endTime ?? Date() },
+                        set: { editableBlock.endTime = $0 }
                     ), displayedComponents: .hourAndMinute)
 
-                    Toggle("Time Sensitive", isOn: $block.isTimeSensitive)
-                    Toggle("Rigid", isOn: $block.isRigid)
-                    Toggle("Completed", isOn: $block.isCompleted)
+                    Toggle("Time Sensitive", isOn: $editableBlock.isTimeSensitive)
+                    Toggle("Rigid", isOn: $editableBlock.isRigid)
+                    Toggle("Completed", isOn: $editableBlock.isCompleted)
+                }
+
+                if !isNew {
+                    Section {
+                        Button(role: .destructive) {
+                            onDelete?()
+                            dismiss()
+                        } label: {
+                            Label("Delete Block", systemImage: "trash")
+                        }
+                    }
                 }
             }
-            .navigationTitle("New Block")
+            .navigationTitle(isNew ? "New Block" : "Edit Block")
             .navigationBarItems(
                 leading: Button("Cancel") {
                     dismiss()
                 },
                 trailing: Button("Save") {
-                    onSave(block)
+                    onSave(editableBlock)
                     dismiss()
                 }
-                .disabled((block.startTime ?? Date()) >= (block.endTime ?? Date()))
             )
         }
     }
