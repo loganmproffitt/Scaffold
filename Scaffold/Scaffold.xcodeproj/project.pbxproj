@@ -14,6 +14,11 @@
 		15E336092D98B7B0000444F5 /* ScaffoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336082D98B7B0000444F5 /* ScaffoldTests.swift */; };
 		15E336132D98B7B0000444F5 /* ScaffoldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336122D98B7B0000444F5 /* ScaffoldUITests.swift */; };
 		15E336152D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336142D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift */; };
+		15E336232D98B855000444F5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336222D98B855000444F5 /* Day.swift */; };
+		15E336252D98B8B0000444F5 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336242D98B8B0000444F5 /* Block.swift */; };
+		15E336282D98BA1C000444F5 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336272D98BA1C000444F5 /* DayView.swift */; };
+		15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336292D98BA28000444F5 /* TimelineView.swift */; };
+		15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E3362C2D98BA40000444F5 /* BlockView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,11 @@
 		15E3360E2D98B7B0000444F5 /* ScaffoldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScaffoldUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E336122D98B7B0000444F5 /* ScaffoldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITests.swift; sourceTree = "<group>"; };
 		15E336142D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		15E336222D98B855000444F5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		15E336242D98B8B0000444F5 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		15E336272D98BA1C000444F5 /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
+		15E336292D98BA28000444F5 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		15E3362C2D98BA40000444F5 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +104,8 @@
 		15E335F62D98B7AD000444F5 /* Scaffold */ = {
 			isa = PBXGroup;
 			children = (
+				15E336262D98BA12000444F5 /* Views */,
+				15E336212D98B827000444F5 /* Models */,
 				15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */,
 				15E335F92D98B7AD000444F5 /* ContentView.swift */,
 				15E335FB2D98B7B0000444F5 /* Assets.xcassets */,
@@ -125,6 +137,25 @@
 				15E336142D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift */,
 			);
 			path = ScaffoldUITests;
+			sourceTree = "<group>";
+		};
+		15E336212D98B827000444F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				15E336222D98B855000444F5 /* Day.swift */,
+				15E336242D98B8B0000444F5 /* Block.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		15E336262D98BA12000444F5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				15E336272D98BA1C000444F5 /* DayView.swift */,
+				15E336292D98BA28000444F5 /* TimelineView.swift */,
+				15E3362C2D98BA40000444F5 /* BlockView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +289,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				15E335FA2D98B7AD000444F5 /* ContentView.swift in Sources */,
+				15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */,
+				15E336282D98BA1C000444F5 /* DayView.swift in Sources */,
+				15E336252D98B8B0000444F5 /* Block.swift in Sources */,
+				15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */,
 				15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */,
+				15E336232D98B855000444F5 /* Day.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
