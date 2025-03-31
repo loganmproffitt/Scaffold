@@ -46,7 +46,7 @@ struct TimelineView: View {
                     let y = CGFloat(hour - startHour) * hourHeight
 
                     Rectangle()
-                        .fill((hour % 2 == 0) ? Color(.systemGray6) : Color.white)
+                        .fill((hour % 2 == 0) ? Color(.systemGray6) : Color.black)
                         .frame(height: hourHeight)
                         .offset(y: y)
                         .onTapGesture {

@@ -9,21 +9,9 @@ struct BlockView: View {
     var onMove: ((CGFloat) -> Void)? = nil
 
     var body: some View {
-        ZStack(alignment: .top) {
-            // Top Resize Handle
-            Rectangle()
-                .fill(Color.clear)
-                .frame(height: 10)
-                .contentShape(Rectangle())
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            onResizeTop?(value.translation.height)
-                        }
-                )
-
+        ZStack(alignment: .topTrailing) {
             VStack(spacing: 0) {
-                // Main Content (Move Gesture Here)
+                // Main Block Content (tappable, movable)
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         if let start = block.startTime, let end = block.endTime {
@@ -45,16 +33,6 @@ struct BlockView: View {
                     }
 
                     Spacer()
-
-                    Button(action: {
-                        onEdit?(block)
-                    }) {
-                        Image(systemName: "pencil")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .padding(6)
-                    }
-                    .clipShape(Circle())
                 }
                 .padding(6)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -64,12 +42,38 @@ struct BlockView: View {
                             onMove?(value.translation.height)
                         }
                 )
+                .onTapGesture {
+                    onTap?()
+                }
+            }
 
-                // Bottom Resize Handle
-                Rectangle()
-                    .fill(Color.clear)
-                    .frame(height: 10)
+            // Top and Bottom Resize Arrows (right side)
+            VStack {
+                Image(systemName: "chevron.up")
+                    .resizable()
+                    .frame(width: 10, height: 6)
+                    .foregroundColor(.white.opacity(0.9))
+                    .padding([.leading, .trailing], 10)
+                    .padding([.top, .bottom], 2)
                     .contentShape(Rectangle())
+                    .background(Color.clear)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                onResizeTop?(value.translation.height)
+                            }
+                    )
+
+                Spacer()
+
+                Image(systemName: "chevron.down")
+                    .resizable()
+                    .frame(width: 10, height: 6)
+                    .foregroundColor(.white.opacity(0.9))
+                    .padding([.leading, .trailing], 15)
+                    .padding([.top, .bottom], 2)
+                    .contentShape(Rectangle())
+                    .background(Color.clear)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
@@ -77,11 +81,9 @@ struct BlockView: View {
                             }
                     )
             }
+            .padding(.vertical, 4)
         }
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
-        .onTapGesture {
-            onTap?()
-        }
     }
 
     func formattedTime(_ date: Date) -> String {
