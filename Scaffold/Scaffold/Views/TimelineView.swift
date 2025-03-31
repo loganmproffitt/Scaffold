@@ -6,41 +6,21 @@ struct TimelineView: View {
     var onStartBlock: ((Block) -> Void)? = nil
     var blocks: [Block]
     var isSnappingEnabled: Bool = true
-
     var onMoveBlock: ((UUID, Date, Date) -> Void)? = nil
 
     let startHour = 6
     let endHour = 22
     let hourHeight: CGFloat = 60
-    let blockXOffset: CGFloat = 58
+    let blockXOffset: CGFloat = 70
 
     @State private var draggingBlockID: UUID?
     @State private var dragOffsetY: CGFloat = 0
     @State private var resizingStartTime: Date?
     @State private var resizingEndTime: Date?
 
-    func dateFor(hour: Int, minute: Int) -> Date {
-        Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
-    }
-
-    func startOfTimelineDate() -> Date {
-        Calendar.current.date(bySettingHour: startHour, minute: 0, second: 0, of: Date())!
-    }
-
-    func snappedDate(_ date: Date) -> Date {
-        let calendar = Calendar.current
-        let comps = calendar.dateComponents([.hour, .minute], from: date)
-        let totalMinutes = (comps.hour ?? 0) * 60 + (comps.minute ?? 0)
-        let snappedMinutes = Int(round(Double(totalMinutes) / 15.0)) * 15
-        let snappedHour = snappedMinutes / 60
-        let snappedMinute = snappedMinutes % 60
-        return calendar.date(bySettingHour: snappedHour, minute: snappedMinute, second: 0, of: date)!
-    }
-
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .topLeading) {
-
                 // MARK: - Hour Grid
                 ForEach(startHour..<endHour, id: \.self) { hour in
                     let y = CGFloat(hour - startHour) * hourHeight
@@ -50,7 +30,7 @@ struct TimelineView: View {
                         .frame(height: hourHeight)
                         .offset(y: y)
                         .onTapGesture {
-                            let tappedDate = dateFor(hour: hour, minute: 0)
+                            let tappedDate = TimelineMath.dateFrom(hour: hour)
                             onHourTap?(tappedDate)
                         }
 
@@ -65,11 +45,11 @@ struct TimelineView: View {
                         .offset(x: 0, y: y - 6)
                 }
 
-                // MARK: - Ghost Outline for Resize Snap
+                // MARK: - Ghost Outline
                 if let start = resizingStartTime, let end = resizingEndTime {
-                    let y = yPosition(for: start)
-                    let height = heightForDuration(start: start, end: end)
-                    let width = geometry.size.width - 70
+                    let y = TimelineMath.yFrom(date: start, startHour: startHour, hourHeight: hourHeight)
+                    let height = TimelineMath.heightForDuration(start: start, end: end, hourHeight: hourHeight)
+                    let width = geometry.size.width - blockXOffset
 
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.blue.opacity(0.5), style: StrokeStyle(lineWidth: 2, dash: [5]))
@@ -81,37 +61,42 @@ struct TimelineView: View {
                 ForEach(blocks.filter { $0.startTime != nil && $0.endTime != nil }) { block in
                     let originalStart = block.startTime!
                     let originalEnd = block.endTime!
-
+                    let duration = TimelineMath.durationInMinutes(start: originalStart, end: originalEnd)
+                    let yOffset = TimelineMath.yFrom(date: originalStart, startHour: startHour, hourHeight: hourHeight)
+                    let height = TimelineMath.heightForDuration(start: originalStart, end: originalEnd, hourHeight: hourHeight)
+                    let width = geometry.size.width - blockXOffset
                     let isDragging = draggingBlockID == block.id
-
-                    let yOffset = yPosition(for: originalStart)
-                    let height = heightForDuration(start: originalStart, end: originalEnd)
-                    let width = geometry.size.width - 70
 
                     BlockView(
                         block: block,
+                        overrideStartTime: overrideStartTime(for: block, yOffset: yOffset, duration: duration),
+                        overrideEndTime: overrideEndTime(for: block, yOffset: yOffset, duration: duration),
                         onEdit: { _ in onEditBlock?(block) },
                         onTap: { onStartBlock?(block) },
                         onResizeTop: { delta in
                             draggingBlockID = block.id
-                            let newY = yPosition(for: originalStart) + delta
-                            let minutesFromTop = newY / hourHeight * 60
-                            let newStart = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
+                            let newStart = TimelineMath.dateFrom(
+                                y: yOffset + delta,
+                                startHour: startHour,
+                                hourHeight: hourHeight
+                            )
 
                             if newStart < originalEnd {
-                                resizingStartTime = snappedDate(newStart)
+                                resizingStartTime = isSnappingEnabled ? TimelineMath.snapped(newStart) : newStart
                                 resizingEndTime = originalEnd
                             }
                         },
                         onResizeBottom: { delta in
                             draggingBlockID = block.id
-                            let newY = yPosition(for: originalStart) + height + delta
-                            let minutesFromTop = newY / hourHeight * 60
-                            let newEnd = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
+                            let newEnd = TimelineMath.dateFrom(
+                                y: yOffset + height + delta,
+                                startHour: startHour,
+                                hourHeight: hourHeight
+                            )
 
                             if newEnd > originalStart {
                                 resizingStartTime = originalStart
-                                resizingEndTime = snappedDate(newEnd)
+                                resizingEndTime = isSnappingEnabled ? TimelineMath.snapped(newEnd) : newEnd
                             }
                         },
                         onMove: { drag in
@@ -131,15 +116,17 @@ struct TimelineView: View {
                             }
                             .onEnded { value in
                                 let newY = yOffset + value.translation.height
-                                let minutesFromTop = newY / hourHeight * 60
-                                var newStart = Calendar.current.date(byAdding: .minute, value: Int(minutesFromTop), to: startOfTimelineDate())!
+                                var newStart = TimelineMath.dateFrom(
+                                    y: newY,
+                                    startHour: startHour,
+                                    hourHeight: hourHeight
+                                )
+
                                 if isSnappingEnabled {
-                                    newStart = snappedDate(newStart)
+                                    newStart = TimelineMath.snapped(newStart)
                                 }
 
-                                let duration = Calendar.current.dateComponents([.minute], from: originalStart, to: originalEnd).minute ?? 60
                                 let newEnd = Calendar.current.date(byAdding: .minute, value: duration, to: newStart)!
-
                                 onMoveBlock?(block.id, newStart, newEnd)
 
                                 draggingBlockID = nil
@@ -159,28 +146,34 @@ struct TimelineView: View {
                             }
                     )
                 }
+
+                // Spacer to ensure scroll space
+                Color.clear.frame(height: CGFloat(endHour - startHour) * hourHeight)
             }
             .padding(.top, 5)
         }
     }
 
+    // MARK: - Helpers
+
     func formattedHour(_ hour: Int) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h a"
-        let date = Calendar.current.date(bySettingHour: hour, minute: 0, second: 0, of: Date())!
-        return formatter.string(from: date)
+        return formatter.string(from: TimelineMath.dateFrom(hour: hour))
     }
 
-    func yPosition(for date: Date) -> CGFloat {
-        let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
-        let hour = comps.hour ?? 0
-        let minute = comps.minute ?? 0
-        let totalMinutes = (hour - startHour) * 60 + minute
-        return CGFloat(totalMinutes) / 60 * hourHeight
+    func overrideStartTime(for block: Block, yOffset: CGFloat, duration: Int) -> Date? {
+        guard draggingBlockID == block.id else { return nil }
+        if let s = resizingStartTime { return s }
+        let newStart = TimelineMath.dateFrom(y: yOffset + dragOffsetY, startHour: startHour, hourHeight: hourHeight)
+        return isSnappingEnabled ? TimelineMath.snapped(newStart) : newStart
     }
 
-    func heightForDuration(start: Date, end: Date) -> CGFloat {
-        let minutes = Calendar.current.dateComponents([.minute], from: start, to: end).minute ?? 0
-        return CGFloat(minutes) / 60 * hourHeight
+    func overrideEndTime(for block: Block, yOffset: CGFloat, duration: Int) -> Date? {
+        guard draggingBlockID == block.id else { return nil }
+        if let e = resizingEndTime { return e }
+        let newStart = TimelineMath.dateFrom(y: yOffset + dragOffsetY, startHour: startHour, hourHeight: hourHeight)
+        let snappedStart = isSnappingEnabled ? TimelineMath.snapped(newStart) : newStart
+        return Calendar.current.date(byAdding: .minute, value: duration, to: snappedStart)
     }
 }

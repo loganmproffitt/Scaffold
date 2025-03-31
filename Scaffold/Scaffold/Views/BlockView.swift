@@ -2,6 +2,8 @@ import SwiftUI
 
 struct BlockView: View {
     var block: Block
+    var overrideStartTime: Date? = nil
+    var overrideEndTime: Date? = nil
     var onEdit: ((Block) -> Void)? = nil
     var onTap: (() -> Void)? = nil
     var onResizeTop: ((CGFloat) -> Void)? = nil
@@ -11,10 +13,11 @@ struct BlockView: View {
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack(spacing: 0) {
-                // Main Block Content (tappable, movable)
+                // Main Block Content (draggable)
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        if let start = block.startTime, let end = block.endTime {
+                        if let start = overrideStartTime ?? block.startTime,
+                           let end = overrideEndTime ?? block.endTime {
                             Text("\(formattedTime(start)) – \(formattedTime(end))")
                                 .font(.caption2)
                                 .foregroundColor(.white.opacity(0.8))
@@ -34,30 +37,25 @@ struct BlockView: View {
 
                     Spacer()
                 }
-                .padding(6)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .gesture(
+                .highPriorityGesture(
                     DragGesture()
                         .onChanged { value in
                             onMove?(value.translation.height)
                         }
                 )
-                .onTapGesture {
-                    onTap?()
-                }
             }
 
-            // Top and Bottom Resize Arrows (right side)
+            // Resize arrows on right side
             VStack {
                 Image(systemName: "chevron.up")
                     .resizable()
                     .frame(width: 10, height: 6)
                     .foregroundColor(.white.opacity(0.9))
-                    .padding([.leading, .trailing], 10)
-                    .padding([.top, .bottom], 2)
+                    .padding(10)
                     .contentShape(Rectangle())
                     .background(Color.clear)
-                    .gesture(
+                    .highPriorityGesture(
                         DragGesture()
                             .onChanged { value in
                                 onResizeTop?(value.translation.height)
@@ -70,20 +68,21 @@ struct BlockView: View {
                     .resizable()
                     .frame(width: 10, height: 6)
                     .foregroundColor(.white.opacity(0.9))
-                    .padding([.leading, .trailing], 15)
-                    .padding([.top, .bottom], 2)
+                    .padding(10)
                     .contentShape(Rectangle())
                     .background(Color.clear)
-                    .gesture(
+                    .highPriorityGesture(
                         DragGesture()
                             .onChanged { value in
                                 onResizeBottom?(value.translation.height)
                             }
                     )
             }
-            .padding(.vertical, 4)
         }
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+        .onTapGesture {
+            onEdit?(block)
+        }
     }
 
     func formattedTime(_ date: Date) -> String {
