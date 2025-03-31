@@ -21,6 +21,7 @@ struct BlockView: View {
                             Text("\(formattedTime(start)) – \(formattedTime(end))")
                                 .font(.caption2)
                                 .foregroundColor(.white.opacity(0.8))
+                                .padding([.top], 10)
                         }
 
                         Text(block.name)
@@ -33,7 +34,10 @@ struct BlockView: View {
                                 .font(.caption2)
                                 .foregroundColor(.green)
                         }
+                        
+                        Spacer()
                     }
+                    .padding([.leading, .trailing], 10)
 
                     Spacer()
                 }
