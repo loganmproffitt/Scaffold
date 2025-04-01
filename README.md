@@ -15,3 +15,7 @@ Together, blocks and tasks cover most situations. However, events without a give
 - Time Groups are optional, and can be placed across any portion of the timeline. They appear as a slightly greyed out section with a border.
   - Any event may be placed into a time group. Non-scheduled events will be displayed in list format, with scheduled events appearing amongst the list at the appropriate timeline location. Additionally, duration based events will be displayed with the proportional size in the list.
 - For example, you might have a set of scheduled/non-scheduled and rigid/non-rigid events to complete before class. You might create a Time Group called Morning, and add those tasks to the group. Now, scheduled or rigid events will still be structured, and the rest will still be displayed, without any confusion of start times.
+
+(Very) Rough Figma Sketch:
+![Screenshot 2025-04-01 at 12 12 41 PM](https://github.com/user-attachments/assets/0b5c0c30-d5c2-46cc-a228-bf9130f52f9f)
+
