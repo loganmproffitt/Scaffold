@@ -8,6 +8,7 @@ struct BlockCreationView: View {
 
     @Environment(\.dismiss) var dismiss
     @State private var editableBlock: Block
+    @State private var durationMinutes: Double
 
     init(block: Block, isNew: Bool = false, onSave: @escaping (Block) -> Void, onDelete: (() -> Void)? = nil) {
         self.block = block
@@ -15,16 +16,14 @@ struct BlockCreationView: View {
         self.onSave = onSave
         self.onDelete = onDelete
         _editableBlock = State(initialValue: block)
+        _durationMinutes = State(initialValue: (block.duration ?? 3600) / 60)
     }
 
     var body: some View {
         ZStack {
-            // Transparent background (with optional dimming)
             Color.black.opacity(0.0)
                 .ignoresSafeArea()
-                .onTapGesture {
-                    dismiss()
-                }
+                .onTapGesture { dismiss() }
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
@@ -33,13 +32,11 @@ struct BlockCreationView: View {
                         .bold()
                         .padding(.bottom, 10)
 
-                    // Name Input
                     labeledField("Block Name") {
                         TextField("Enter name", text: $editableBlock.name)
                             .textFieldStyle(.roundedBorder)
                     }
 
-                    // Start Time
                     labeledField("Start Time") {
                         DatePicker("", selection: Binding(
                             get: { editableBlock.startTime ?? Date() },
@@ -48,20 +45,24 @@ struct BlockCreationView: View {
                         .labelsHidden()
                     }
 
-                    // End Time
-                    labeledField("End Time") {
-                        DatePicker("", selection: Binding(
-                            get: { editableBlock.endTime ?? Date() },
-                            set: { editableBlock.endTime = $0 }
-                        ), displayedComponents: .hourAndMinute)
-                        .labelsHidden()
+                    labeledField("Duration (minutes)") {
+                        Stepper(value: $durationMinutes, in: 5...180, step: 5) {
+                            Text("\(Int(durationMinutes)) min")
+                        }
                     }
 
-                    Toggle("Time Sensitive", isOn: $editableBlock.isTimeSensitive)
-                    Toggle("Rigid", isOn: $editableBlock.isRigid)
-                    Toggle("Completed", isOn: $editableBlock.isCompleted)
+                    if let computedEnd = editableBlock.startTime?.addingTimeInterval(durationMinutes * 60) {
+                        labeledField("End Time (calculated)") {
+                            Text(DateFormatter.localizedString(from: computedEnd, dateStyle: .none, timeStyle: .short))
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
 
-                    // Action Buttons
+                    Toggle("Time Sensitive", isOn: $editableBlock.isScheduled)
+                    Toggle("Rigid", isOn: $editableBlock.isRigid)
+                    Toggle("Completed", isOn: $editableBlock.isComplete)
+
                     HStack {
                         Button("Cancel") {
                             dismiss()
@@ -71,13 +72,13 @@ struct BlockCreationView: View {
                         Spacer()
 
                         Button("Save") {
+                            editableBlock.duration = durationMinutes * 60
                             onSave(editableBlock)
                             dismiss()
                         }
                         .buttonStyle(.borderedProminent)
                     }
 
-                    // Delete
                     if !isNew {
                         Divider().padding(.top, 20)
 

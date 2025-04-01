@@ -57,97 +57,94 @@ struct TimelineView: View {
                         .offset(x: blockXOffset, y: y)
                 }
 
-                // MARK: - Real Blocks
-                ForEach(blocks.filter { $0.startTime != nil && $0.endTime != nil }) { block in
-                    let originalStart = block.startTime!
-                    let originalEnd = block.endTime!
-                    let duration = TimelineMath.durationInMinutes(start: originalStart, end: originalEnd)
-                    let yOffset = TimelineMath.yFrom(date: originalStart, startHour: startHour, hourHeight: hourHeight)
-                    let height = TimelineMath.heightForDuration(start: originalStart, end: originalEnd, hourHeight: hourHeight)
-                    let width = geometry.size.width - blockXOffset
-                    let isDragging = draggingBlockID == block.id
+                // MARK: - Blocks
+                ForEach(blocks) { block in
+                    // You no longer need to unwrap block.id because it's a non-optional UUID
+                    if let originalStart = block.startTime,
+                       let originalEnd = block.endTime {
+                        
+                        let duration = TimelineMath.durationInMinutes(start: originalStart, end: originalEnd)
+                        let yOffset = TimelineMath.yFrom(date: originalStart, startHour: startHour, hourHeight: hourHeight)
+                        let height = TimelineMath.heightForDuration(start: originalStart, end: originalEnd, hourHeight: hourHeight)
+                        let width = geometry.size.width - blockXOffset
+                        let isDragging = draggingBlockID == block.id
 
-                    BlockView(
-                        block: block,
-                        overrideStartTime: overrideStartTime(for: block, yOffset: yOffset, duration: duration),
-                        overrideEndTime: overrideEndTime(for: block, yOffset: yOffset, duration: duration),
-                        onEdit: { _ in onEditBlock?(block) },
-                        onTap: { onStartBlock?(block) },
-                        onResizeTop: { delta in
-                            draggingBlockID = block.id
-                            let newStart = TimelineMath.dateFrom(
-                                y: yOffset + delta,
-                                startHour: startHour,
-                                hourHeight: hourHeight
-                            )
-
-                            if newStart < originalEnd {
-                                resizingStartTime = isSnappingEnabled ? TimelineMath.snapped(newStart) : newStart
-                                resizingEndTime = originalEnd
-                            }
-                        },
-                        onResizeBottom: { delta in
-                            draggingBlockID = block.id
-                            let newEnd = TimelineMath.dateFrom(
-                                y: yOffset + height + delta,
-                                startHour: startHour,
-                                hourHeight: hourHeight
-                            )
-
-                            if newEnd > originalStart {
-                                resizingStartTime = originalStart
-                                resizingEndTime = isSnappingEnabled ? TimelineMath.snapped(newEnd) : newEnd
-                            }
-                        },
-                        onMove: { drag in
-                            draggingBlockID = block.id
-                            dragOffsetY = drag
-                        }
-                    )
-                    .opacity(isDragging ? 0.9 : 1)
-                    .shadow(radius: isDragging ? 4 : 0)
-                    .frame(width: width, height: height)
-                    .offset(x: blockXOffset, y: yOffset + (isDragging ? dragOffsetY : 0))
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
+                        BlockView(
+                            block: block,
+                            overrideStartTime: overrideStartTime(for: block, yOffset: yOffset, duration: duration),
+                            overrideEndTime: overrideEndTime(for: block, yOffset: yOffset, duration: duration),
+                            onEdit: { _ in onEditBlock?(block) },
+                            onTap: { onStartBlock?(block) },
+                            onResizeTop: { delta in
                                 draggingBlockID = block.id
-                                dragOffsetY = value.translation.height
-                            }
-                            .onEnded { value in
-                                let newY = yOffset + value.translation.height
-                                var newStart = TimelineMath.dateFrom(
-                                    y: newY,
+                                let newStart = TimelineMath.dateFrom(
+                                    y: yOffset + delta,
                                     startHour: startHour,
                                     hourHeight: hourHeight
                                 )
-
-                                if isSnappingEnabled {
-                                    newStart = TimelineMath.snapped(newStart)
+                                if newStart < originalEnd {
+                                    resizingStartTime = isSnappingEnabled ? TimelineMath.snapped(newStart) : newStart
+                                    resizingEndTime = originalEnd
                                 }
-
-                                let newEnd = Calendar.current.date(byAdding: .minute, value: duration, to: newStart)!
-                                onMoveBlock?(block.id, newStart, newEnd)
-
-                                draggingBlockID = nil
-                                dragOffsetY = 0
-                            }
-                    )
-                    .simultaneousGesture(
-                        DragGesture()
-                            .onEnded { _ in
-                                if let s = resizingStartTime, let e = resizingEndTime {
-                                    onMoveBlock?(block.id, s, e)
+                            },
+                            onResizeBottom: { delta in
+                                draggingBlockID = block.id
+                                let newEnd = TimelineMath.dateFrom(
+                                    y: yOffset + height + delta,
+                                    startHour: startHour,
+                                    hourHeight: hourHeight
+                                )
+                                if newEnd > originalStart {
+                                    resizingStartTime = originalStart
+                                    resizingEndTime = isSnappingEnabled ? TimelineMath.snapped(newEnd) : newEnd
                                 }
-
-                                resizingStartTime = nil
-                                resizingEndTime = nil
-                                draggingBlockID = nil
+                            },
+                            onMove: { drag in
+                                draggingBlockID = block.id
+                                dragOffsetY = drag
                             }
-                    )
+                        )
+                        .opacity(isDragging ? 0.9 : 1)
+                        .shadow(radius: isDragging ? 4 : 0)
+                        .frame(width: width, height: height)
+                        .offset(x: blockXOffset, y: yOffset + (isDragging ? dragOffsetY : 0))
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    draggingBlockID = block.id
+                                    dragOffsetY = value.translation.height
+                                }
+                                .onEnded { value in
+                                    let newY = yOffset + value.translation.height
+                                    var newStart = TimelineMath.dateFrom(
+                                        y: newY,
+                                        startHour: startHour,
+                                        hourHeight: hourHeight
+                                    )
+                                    if isSnappingEnabled {
+                                        newStart = TimelineMath.snapped(newStart)
+                                    }
+                                    let newEnd = Calendar.current.date(byAdding: .minute, value: duration, to: newStart)!
+                                    onMoveBlock?(block.id, newStart, newEnd)
+                                    draggingBlockID = nil
+                                    dragOffsetY = 0
+                                }
+                        )
+                        .simultaneousGesture(
+                            DragGesture()
+                                .onEnded { _ in
+                                    if let s = resizingStartTime, let e = resizingEndTime {
+                                        onMoveBlock?(block.id, s, e)
+                                    }
+                                    resizingStartTime = nil
+                                    resizingEndTime = nil
+                                    draggingBlockID = nil
+                                }
+                        )
+                    }
                 }
 
-                // Spacer to ensure scroll space
+                // Spacer to allow scrolling beyond last block
                 Color.clear.frame(height: CGFloat(endHour - startHour) * hourHeight)
             }
             .padding(.top, 5)

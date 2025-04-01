@@ -29,7 +29,7 @@ struct BlockView: View {
                             .bold()
                             .foregroundColor(.white)
 
-                        if block.isCompleted {
+                        if block.isComplete {
                             Text("✔ Completed")
                                 .font(.caption2)
                                 .foregroundColor(.green)

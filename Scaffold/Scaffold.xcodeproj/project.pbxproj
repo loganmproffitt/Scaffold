@@ -7,8 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		156B40032D9C17CD005745E1 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 156B40022D9C17CD005745E1 /* Realm */; };
+		156B40052D9C17CD005745E1 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 156B40042D9C17CD005745E1 /* RealmSwift */; };
+		156B40082D9C194A005745E1 /* TaskLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40072D9C194A005745E1 /* TaskLike.swift */; };
+		156B400A2D9C1963005745E1 /* BlockLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40092D9C1963005745E1 /* BlockLike.swift */; };
+		156B400C2D9C1994005745E1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B400B2D9C1994005745E1 /* Task.swift */; };
+		156B400E2D9C19AB005745E1 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B400D2D9C19AB005745E1 /* Block.swift */; };
+		156B40112D9C1AED005745E1 /* DataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40102D9C1AED005745E1 /* DataMapper.swift */; };
+		156B40132D9C1BD7005745E1 /* DayLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40122D9C1BD7005745E1 /* DayLike.swift */; };
+		156B40152D9C1BE2005745E1 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40142D9C1BE2005745E1 /* Day.swift */; };
+		156B40172D9C1D7C005745E1 /* DayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40162D9C1D7C005745E1 /* DayService.swift */; };
+		156B401A2D9C1DE7005745E1 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40192D9C1DE7005745E1 /* DayViewModel.swift */; };
 		15A034282D98D662000726BC /* BlockCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A034272D98D662000726BC /* BlockCreationView.swift */; };
 		15C5B2562D999705008FD95A /* BlockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C5B2552D999705008FD95A /* BlockWrapper.swift */; };
+		15CD323A2D9B0EA900D26FE2 /* TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CD32392D9B0EA900D26FE2 /* TaskObject.swift */; };
 		15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */; };
 		15E335FA2D98B7AD000444F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E335F92D98B7AD000444F5 /* ContentView.swift */; };
 		15E335FC2D98B7B0000444F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15E335FB2D98B7B0000444F5 /* Assets.xcassets */; };
@@ -16,8 +28,8 @@
 		15E336092D98B7B0000444F5 /* ScaffoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336082D98B7B0000444F5 /* ScaffoldTests.swift */; };
 		15E336132D98B7B0000444F5 /* ScaffoldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336122D98B7B0000444F5 /* ScaffoldUITests.swift */; };
 		15E336152D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336142D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift */; };
-		15E336232D98B855000444F5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336222D98B855000444F5 /* Day.swift */; };
-		15E336252D98B8B0000444F5 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336242D98B8B0000444F5 /* Block.swift */; };
+		15E336232D98B855000444F5 /* DayObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336222D98B855000444F5 /* DayObject.swift */; };
+		15E336252D98B8B0000444F5 /* BlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336242D98B8B0000444F5 /* BlockObject.swift */; };
 		15E336282D98BA1C000444F5 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336272D98BA1C000444F5 /* DayView.swift */; };
 		15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336292D98BA28000444F5 /* TimelineView.swift */; };
 		15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E3362C2D98BA40000444F5 /* BlockView.swift */; };
@@ -42,8 +54,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		156B40072D9C194A005745E1 /* TaskLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLike.swift; sourceTree = "<group>"; };
+		156B40092D9C1963005745E1 /* BlockLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockLike.swift; sourceTree = "<group>"; };
+		156B400B2D9C1994005745E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		156B400D2D9C19AB005745E1 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		156B40102D9C1AED005745E1 /* DataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMapper.swift; sourceTree = "<group>"; };
+		156B40122D9C1BD7005745E1 /* DayLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayLike.swift; sourceTree = "<group>"; };
+		156B40142D9C1BE2005745E1 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		156B40162D9C1D7C005745E1 /* DayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayService.swift; sourceTree = "<group>"; };
+		156B40192D9C1DE7005745E1 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		15A034272D98D662000726BC /* BlockCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCreationView.swift; sourceTree = "<group>"; };
 		15C5B2552D999705008FD95A /* BlockWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockWrapper.swift; sourceTree = "<group>"; };
+		15CD32392D9B0EA900D26FE2 /* TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskObject.swift; sourceTree = "<group>"; };
 		15E335F42D98B7AD000444F5 /* Scaffold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scaffold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldApp.swift; sourceTree = "<group>"; };
 		15E335F92D98B7AD000444F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,8 +76,8 @@
 		15E3360E2D98B7B0000444F5 /* ScaffoldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScaffoldUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15E336122D98B7B0000444F5 /* ScaffoldUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITests.swift; sourceTree = "<group>"; };
 		15E336142D98B7B0000444F5 /* ScaffoldUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaffoldUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		15E336222D98B855000444F5 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
-		15E336242D98B8B0000444F5 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		15E336222D98B855000444F5 /* DayObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayObject.swift; sourceTree = "<group>"; };
+		15E336242D98B8B0000444F5 /* BlockObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockObject.swift; sourceTree = "<group>"; };
 		15E336272D98BA1C000444F5 /* DayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		15E336292D98BA28000444F5 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		15E3362C2D98BA40000444F5 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
@@ -67,6 +89,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156B40052D9C17CD005745E1 /* RealmSwift in Frameworks */,
+				156B40032D9C17CD005745E1 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +111,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		156B40062D9C191E005745E1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				156B40072D9C194A005745E1 /* TaskLike.swift */,
+				156B40092D9C1963005745E1 /* BlockLike.swift */,
+				156B400B2D9C1994005745E1 /* Task.swift */,
+				156B400D2D9C19AB005745E1 /* Block.swift */,
+				156B40122D9C1BD7005745E1 /* DayLike.swift */,
+				156B40142D9C1BE2005745E1 /* Day.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		156B400F2D9C1AE3005745E1 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				156B40102D9C1AED005745E1 /* DataMapper.swift */,
+				156B40162D9C1D7C005745E1 /* DayService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		156B40182D9C1DD3005745E1 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				156B40192D9C1DE7005745E1 /* DayViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		15E335EB2D98B7AD000444F5 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +164,9 @@
 		15E335F62D98B7AD000444F5 /* Scaffold */ = {
 			isa = PBXGroup;
 			children = (
+				156B40182D9C1DD3005745E1 /* ViewModels */,
+				156B400F2D9C1AE3005745E1 /* Services */,
+				156B40062D9C191E005745E1 /* Protocols */,
 				15F28AB12D9ADC2300428ABB /* Utils */,
 				15E336262D98BA12000444F5 /* Views */,
 				15E336212D98B827000444F5 /* Models */,
@@ -149,9 +206,10 @@
 		15E336212D98B827000444F5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				15E336222D98B855000444F5 /* Day.swift */,
-				15E336242D98B8B0000444F5 /* Block.swift */,
+				15E336222D98B855000444F5 /* DayObject.swift */,
+				15E336242D98B8B0000444F5 /* BlockObject.swift */,
 				15C5B2552D999705008FD95A /* BlockWrapper.swift */,
+				15CD32392D9B0EA900D26FE2 /* TaskObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +249,10 @@
 			dependencies = (
 			);
 			name = Scaffold;
+			packageProductDependencies = (
+				156B40022D9C17CD005745E1 /* Realm */,
+				156B40042D9C17CD005745E1 /* RealmSwift */,
+			);
 			productName = Scaffold;
 			productReference = 15E335F42D98B7AD000444F5 /* Scaffold.app */;
 			productType = "com.apple.product-type.application";
@@ -263,6 +325,9 @@
 				Base,
 			);
 			mainGroup = 15E335EB2D98B7AD000444F5;
+			packageReferences = (
+				156B40012D9C17CD005745E1 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = 15E335F52D98B7AD000444F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -309,11 +374,21 @@
 				15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */,
 				15F28AB32D9ADC2F00428ABB /* TimelineMath.swift in Sources */,
 				15E336282D98BA1C000444F5 /* DayView.swift in Sources */,
-				15E336252D98B8B0000444F5 /* Block.swift in Sources */,
+				156B400A2D9C1963005745E1 /* BlockLike.swift in Sources */,
+				15CD323A2D9B0EA900D26FE2 /* TaskObject.swift in Sources */,
+				156B40082D9C194A005745E1 /* TaskLike.swift in Sources */,
+				156B401A2D9C1DE7005745E1 /* DayViewModel.swift in Sources */,
+				15E336252D98B8B0000444F5 /* BlockObject.swift in Sources */,
+				156B40132D9C1BD7005745E1 /* DayLike.swift in Sources */,
 				15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */,
 				15A034282D98D662000726BC /* BlockCreationView.swift in Sources */,
+				156B40112D9C1AED005745E1 /* DataMapper.swift in Sources */,
+				156B40172D9C1D7C005745E1 /* DayService.swift in Sources */,
 				15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */,
-				15E336232D98B855000444F5 /* Day.swift in Sources */,
+				15E336232D98B855000444F5 /* DayObject.swift in Sources */,
+				156B40152D9C1BE2005745E1 /* Day.swift in Sources */,
+				156B400E2D9C19AB005745E1 /* Block.swift in Sources */,
+				156B400C2D9C1994005745E1 /* Task.swift in Sources */,
 				15C5B2562D999705008FD95A /* BlockWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,6 +719,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		156B40012D9C17CD005745E1 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.43.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		156B40022D9C17CD005745E1 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 156B40012D9C17CD005745E1 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		156B40042D9C17CD005745E1 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 156B40012D9C17CD005745E1 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 15E335EC2D98B7AD000444F5 /* Project object */;
 }
