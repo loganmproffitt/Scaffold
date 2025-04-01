@@ -17,7 +17,14 @@ struct DayView: View {
 
     private func handleSave(for block: Block) -> (Block) -> Void {
         return { updated in
-            viewModel.saveBlock(updated)
+            viewModel.saveDay()
+            activeBlockWrapper = nil
+        }
+    }
+    
+    private func handleCreateBlock(for block: Block) -> (Block) -> Void {
+        return { updated in
+            viewModel.addBlock(block)
             activeBlockWrapper = nil
         }
     }
@@ -86,7 +93,6 @@ struct DayView: View {
                 }
                 .padding()
             }
-
             .sheet(item: $activeBlockWrapper) { wrapper in
                 let block = wrapper.block
                 let isNew = !viewModel.currentDay.blocks.contains(where: { $0.id == block.id })
@@ -94,7 +100,7 @@ struct DayView: View {
                 BlockCreationView(
                     block: block,
                     isNew: isNew,
-                    onSave: handleSave(for: block),
+                    onSave: handleCreateBlock(for: block),
                     onDelete: handleDelete(for: block)
                 )
             }

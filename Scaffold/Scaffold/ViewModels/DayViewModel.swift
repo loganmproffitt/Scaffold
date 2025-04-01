@@ -13,12 +13,12 @@ class DayViewModel: ObservableObject {
     
     func addTask(_ task: Task) {
         currentDay.tasks.append(task)
-        dayService.saveTask(task)  // Save the task to Realm
+        dayService.saveDay(currentDay)
     }
     
     func addBlock(_ block: Block) {
         currentDay.blocks.append(block)
-        dayService.saveBlock(block)  // Save the block to Realm
+        dayService.saveDay(currentDay)
     }
     
     func saveDay() {
@@ -47,6 +47,7 @@ class DayViewModel: ObservableObject {
     func removeBlock(_ block: Block) {
         currentDay.blocks.removeAll { $0.id == block.id }
         dayService.deleteBlock(withId: block.id.uuidString)
+        dayService.saveDay(currentDay)
     }
 
     // Save or update a task

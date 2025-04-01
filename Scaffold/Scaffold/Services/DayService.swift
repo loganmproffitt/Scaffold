@@ -15,19 +15,25 @@ class DayService {
 
     /// Loads an existing Day for a given date or creates a new one.
     func loadOrCreateDay(for date: Date) -> Day {
-        if let dayObject = realm.objects(DayObject.self).filter("date == %@", date).first {
+        // Normalize the date to ignore time
+        let calendar = Calendar.current
+        let normalizedDate = calendar.startOfDay(for: date)  // Strips time component
+        
+        // Query Realm with the normalized date
+        if let dayObject = realm.objects(DayObject.self).filter("date == %@", normalizedDate).first {
+            print("Loading existing day.")
             return DataMapper.mapToDay(from: dayObject)
         } else {
-            let newDay = Day(id: UUID().uuidString, date: date, tasks: [], blocks: [])
+            let newDay = Day(id: UUID(), date: normalizedDate, tasks: [], blocks: [])
             saveDay(newDay)
             return newDay
         }
     }
 
+
     /// Saves or updates a Day and its associated tasks and blocks.
     func saveDay(_ day: Day) {
         let dayObject = DataMapper.mapToDayObject(from: day)
-        print("Saved day called.")
         do {
             try realm.write {
                 realm.add(dayObject, update: .modified)

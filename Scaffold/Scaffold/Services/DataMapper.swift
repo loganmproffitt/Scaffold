@@ -49,7 +49,7 @@ class DataMapper {
 
     static func mapToBlockObject(from block: Block) -> BlockObject {
         let blockObject = BlockObject()
-        blockObject.id = block.id.uuidString // Convert UUID to String for Realm
+        blockObject.id = block.id.uuidString  // Convert UUID to String for Realm
         blockObject.name = block.name
         blockObject.descriptionText = block.descriptionText
         blockObject.isComplete = block.isComplete
@@ -62,14 +62,18 @@ class DataMapper {
     }
 
 
+
     
     static func mapToDay(from dayObject: DayObject) -> Day {
         // Convert the LazyMapSequence to a concrete array of TaskLike
+        print("Object blocks:")
+        print(dayObject.blocks)
         let tasks = Array(dayObject.tasks.map { mapToTask(from: $0) })
         let blocks = Array(dayObject.blocks.map { mapToBlock(from: $0) })
+        let id = UUID(uuidString: dayObject.id) ?? UUID()
         
         return Day(
-            id: dayObject.id,
+            id: id,
             date: dayObject.date,
             tasks: tasks,
             blocks: blocks
@@ -78,27 +82,24 @@ class DataMapper {
 
     static func mapToDayObject(from day: Day) -> DayObject {
         let dayObject = DayObject()
-        dayObject.id = day.id
+        dayObject.id = day.id.uuidString
         dayObject.date = day.date
         
         // Convert TaskLike (structs) to TaskObject (Realm model) and append
         let taskObjects = day.tasks.compactMap { task -> TaskObject? in
-            if let task = task as? Task {
-                return mapToTaskObject(from: task)
-            }
-            return nil
+            // Safely cast Task to TaskObject
+            return mapToTaskObject(from: task)
         }
         dayObject.tasks.append(objectsIn: taskObjects)
         
         // Convert BlockLike (structs) to BlockObject (Realm model) and append
         let blockObjects = day.blocks.compactMap { block -> BlockObject? in
-            if let block = block as? Block {
-                return mapToBlockObject(from: block)
-            }
-            return nil
+            // Safely cast Block to BlockObject
+            return mapToBlockObject(from: block)
         }
         dayObject.blocks.append(objectsIn: blockObjects)
         
         return dayObject
     }
+
 }
