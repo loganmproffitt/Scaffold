@@ -1,6 +1,6 @@
 # Scaffold
 
-A structured yet breathable scheduling app. Includes a hour-based timeline, as well as customizable/modifyable events.
+A structured yet breathable scheduling app. Includes a hour-based timeline and intuitive event customization.
 
 To allow for structure and flexibility, users can add:
 - Blocks
