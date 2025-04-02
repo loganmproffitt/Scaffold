@@ -36,15 +36,10 @@ struct Block: BlockLike, Identifiable {
            self.isScheduled = isScheduled
            self.startTime = startTime
            self.completionTime = completionTime
-           self.colorHex = colorHex ?? Block.randomColor()
+           self.colorHex = colorHex ?? ColorUtils.randomHexColor()
            self.isRigid = isRigid
            self.duration = duration
        }
-
-   static func randomColor() -> String {
-       let presetColors = ["#FF9F1C", "#2EC4B6", "#E71D36", "#011627", "#FFBF69"]
-       return presetColors.randomElement() ?? "#999999"
-   }
 
     // Computed property
     var endTime: Date? {

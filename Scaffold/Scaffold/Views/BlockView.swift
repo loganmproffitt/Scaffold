@@ -11,6 +11,8 @@ struct BlockView: View {
     var onMove: ((CGFloat) -> Void)? = nil
 
     var body: some View {
+        let contrastColor = ColorUtils.contrastColor(for: block.color)
+
         ZStack(alignment: .topTrailing) {
             VStack(spacing: 0) {
                 // Main Block Content (draggable)
@@ -20,21 +22,21 @@ struct BlockView: View {
                            let end = overrideEndTime ?? block.endTime {
                             Text("\(formattedTime(start)) – \(formattedTime(end))")
                                 .font(.caption2)
-                                .foregroundColor(.white.opacity(0.8))
-                                .padding([.top], 10)
+                                .foregroundColor(contrastColor.opacity(0.8))
+                                .padding(.top, 10)
                         }
 
                         Text(block.name)
                             .font(.caption)
                             .bold()
-                            .foregroundColor(.white)
+                            .foregroundColor(contrastColor)
 
                         if block.isComplete {
                             Text("✔ Completed")
                                 .font(.caption2)
                                 .foregroundColor(.green)
                         }
-                        
+
                         Spacer()
                     }
                     .padding([.leading, .trailing], 10)
@@ -55,7 +57,7 @@ struct BlockView: View {
                 Image(systemName: "chevron.up")
                     .resizable()
                     .frame(width: 10, height: 6)
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(contrastColor.opacity(0.9))
                     .padding(10)
                     .contentShape(Rectangle())
                     .background(Color.clear)
@@ -71,7 +73,7 @@ struct BlockView: View {
                 Image(systemName: "chevron.down")
                     .resizable()
                     .frame(width: 10, height: 6)
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(contrastColor.opacity(0.9))
                     .padding(10)
                     .contentShape(Rectangle())
                     .background(Color.clear)
@@ -83,7 +85,7 @@ struct BlockView: View {
                     )
             }
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color(hex: block.colorHex)))
+        .background(RoundedRectangle(cornerRadius: 15).fill(block.color))
         .onTapGesture {
             onEdit?(block)
         }

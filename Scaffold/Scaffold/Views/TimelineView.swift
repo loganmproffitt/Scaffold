@@ -17,6 +17,7 @@ struct TimelineView: View {
     @State private var dragOffsetY: CGFloat = 0
     @State private var resizingStartTime: Date?
     @State private var resizingEndTime: Date?
+    @State private var currentTime: Date = Date()
 
     var body: some View {
         GeometryReader { geometry in
@@ -45,6 +46,27 @@ struct TimelineView: View {
                         .offset(x: 0, y: y - 6)
                 }
 
+                // MARK: - Current Time Indicator
+                let nowY = TimelineMath.yFrom(date: currentTime, startHour: startHour, hourHeight: hourHeight)
+                let fullHeight = CGFloat(endHour - startHour) * hourHeight
+
+                if nowY >= 0 && nowY <= fullHeight {
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(height: 2)
+                        .offset(y: nowY - 1)
+
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 8, height: 8)
+                        .offset(x: blockXOffset - 12, y: nowY - 4)
+
+                    Text(formattedTime(currentTime))
+                        .font(.caption2)
+                        .foregroundColor(.blue)
+                        .offset(x: blockXOffset + 5, y: nowY - 15)
+                }
+
                 // MARK: - Ghost Outline
                 if let start = resizingStartTime, let end = resizingEndTime {
                     let y = TimelineMath.yFrom(date: start, startHour: startHour, hourHeight: hourHeight)
@@ -59,10 +81,9 @@ struct TimelineView: View {
 
                 // MARK: - Blocks
                 ForEach(blocks) { block in
-                    // You no longer need to unwrap block.id because it's a non-optional UUID
                     if let originalStart = block.startTime,
                        let originalEnd = block.endTime {
-                        
+
                         let duration = TimelineMath.durationInMinutes(start: originalStart, end: originalEnd)
                         let yOffset = TimelineMath.yFrom(date: originalStart, startHour: startHour, hourHeight: hourHeight)
                         let height = TimelineMath.heightForDuration(start: originalStart, end: originalEnd, hourHeight: hourHeight)
@@ -148,6 +169,12 @@ struct TimelineView: View {
                 Color.clear.frame(height: CGFloat(endHour - startHour) * hourHeight)
             }
             .padding(.top, 5)
+            .onAppear {
+                // Start updating the current time every minute
+                Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+                    currentTime = Date()
+                }
+            }
         }
     }
 
@@ -157,6 +184,12 @@ struct TimelineView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "h a"
         return formatter.string(from: TimelineMath.dateFrom(hour: hour))
+    }
+
+    func formattedTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter.string(from: date)
     }
 
     func overrideStartTime(for block: Block, yOffset: CGFloat, duration: Int) -> Date? {

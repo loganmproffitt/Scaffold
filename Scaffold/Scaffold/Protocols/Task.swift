@@ -31,12 +31,7 @@ struct Task: TaskLike, Identifiable {
            self.isScheduled = isScheduled
            self.startTime = startTime
            self.completionTime = completionTime
-           self.colorHex = colorHex ?? Task.randomColor()
+           self.colorHex = colorHex ?? ColorUtils.randomHexColor()
        }
-
-   static func randomColor() -> String {
-       let presetColors = ["#FF9F1C", "#2EC4B6", "#E71D36", "#011627", "#FFBF69"]
-       return presetColors.randomElement() ?? "#999999"
-   }
 }
 

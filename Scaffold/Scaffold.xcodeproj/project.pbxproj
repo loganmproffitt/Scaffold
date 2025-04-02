@@ -19,6 +19,8 @@
 		156B40172D9C1D7C005745E1 /* DayService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40162D9C1D7C005745E1 /* DayService.swift */; };
 		156B401A2D9C1DE7005745E1 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B40192D9C1DE7005745E1 /* DayViewModel.swift */; };
 		15A034282D98D662000726BC /* BlockCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A034272D98D662000726BC /* BlockCreationView.swift */; };
+		15B5E2812D9D74C50092CF4A /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E2802D9D74C50092CF4A /* ColorUtils.swift */; };
+		15B5E2832D9D75540092CF4A /* AppStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B5E2822D9D75540092CF4A /* AppStyling.swift */; };
 		15C5B2562D999705008FD95A /* BlockWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C5B2552D999705008FD95A /* BlockWrapper.swift */; };
 		15CD323A2D9B0EA900D26FE2 /* TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CD32392D9B0EA900D26FE2 /* TaskObject.swift */; };
 		15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E335F72D98B7AD000444F5 /* ScaffoldApp.swift */; };
@@ -66,6 +68,8 @@
 		156B40162D9C1D7C005745E1 /* DayService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayService.swift; sourceTree = "<group>"; };
 		156B40192D9C1DE7005745E1 /* DayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
 		15A034272D98D662000726BC /* BlockCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCreationView.swift; sourceTree = "<group>"; };
+		15B5E2802D9D74C50092CF4A /* ColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
+		15B5E2822D9D75540092CF4A /* AppStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStyling.swift; sourceTree = "<group>"; };
 		15C5B2552D999705008FD95A /* BlockWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockWrapper.swift; sourceTree = "<group>"; };
 		15CD32392D9B0EA900D26FE2 /* TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskObject.swift; sourceTree = "<group>"; };
 		15E335F42D98B7AD000444F5 /* Scaffold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scaffold.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +149,15 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		15B5E27F2D9D74B70092CF4A /* Styling */ = {
+			isa = PBXGroup;
+			children = (
+				15B5E2802D9D74C50092CF4A /* ColorUtils.swift */,
+				15B5E2822D9D75540092CF4A /* AppStyling.swift */,
+			);
+			path = Styling;
+			sourceTree = "<group>";
+		};
 		15E335EB2D98B7AD000444F5 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +181,7 @@
 		15E335F62D98B7AD000444F5 /* Scaffold */ = {
 			isa = PBXGroup;
 			children = (
+				15B5E27F2D9D74B70092CF4A /* Styling */,
 				15F7BF412D9C70B00097736D /* Migrations */,
 				15F7BF3E2D9C6D740097736D /* Extensions */,
 				156B40182D9C1DD3005745E1 /* ViewModels */,
@@ -406,6 +420,7 @@
 				15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */,
 				15A034282D98D662000726BC /* BlockCreationView.swift in Sources */,
 				156B40112D9C1AED005745E1 /* DataMapper.swift in Sources */,
+				15B5E2832D9D75540092CF4A /* AppStyling.swift in Sources */,
 				156B40172D9C1D7C005745E1 /* DayService.swift in Sources */,
 				15E335F82D98B7AD000444F5 /* ScaffoldApp.swift in Sources */,
 				15E336232D98B855000444F5 /* DayObject.swift in Sources */,
@@ -413,6 +428,7 @@
 				156B400E2D9C19AB005745E1 /* Block.swift in Sources */,
 				156B400C2D9C1994005745E1 /* Task.swift in Sources */,
 				15F7BF432D9C70C70097736D /* RealmMigrationManager.swift in Sources */,
+				15B5E2812D9D74C50092CF4A /* ColorUtils.swift in Sources */,
 				15C5B2562D999705008FD95A /* BlockWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
