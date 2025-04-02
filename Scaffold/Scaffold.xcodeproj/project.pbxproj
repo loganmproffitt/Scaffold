@@ -34,6 +34,8 @@
 		15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E336292D98BA28000444F5 /* TimelineView.swift */; };
 		15E3362D2D98BA40000444F5 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E3362C2D98BA40000444F5 /* BlockView.swift */; };
 		15F28AB32D9ADC2F00428ABB /* TimelineMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F28AB22D9ADC2F00428ABB /* TimelineMath.swift */; };
+		15F7BF402D9C6D880097736D /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7BF3F2D9C6D880097736D /* Color.swift */; };
+		15F7BF432D9C70C70097736D /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F7BF422D9C70C70097736D /* RealmMigrationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,8 @@
 		15E336292D98BA28000444F5 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		15E3362C2D98BA40000444F5 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		15F28AB22D9ADC2F00428ABB /* TimelineMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineMath.swift; sourceTree = "<group>"; };
+		15F7BF3F2D9C6D880097736D /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		15F7BF422D9C70C70097736D /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +168,8 @@
 		15E335F62D98B7AD000444F5 /* Scaffold */ = {
 			isa = PBXGroup;
 			children = (
+				15F7BF412D9C70B00097736D /* Migrations */,
+				15F7BF3E2D9C6D740097736D /* Extensions */,
 				156B40182D9C1DD3005745E1 /* ViewModels */,
 				156B400F2D9C1AE3005745E1 /* Services */,
 				156B40062D9C191E005745E1 /* Protocols */,
@@ -231,6 +237,22 @@
 				15F28AB22D9ADC2F00428ABB /* TimelineMath.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		15F7BF3E2D9C6D740097736D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				15F7BF3F2D9C6D880097736D /* Color.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		15F7BF412D9C70B00097736D /* Migrations */ = {
+			isa = PBXGroup;
+			children = (
+				15F7BF422D9C70C70097736D /* RealmMigrationManager.swift */,
+			);
+			path = Migrations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,6 +394,7 @@
 			files = (
 				15E335FA2D98B7AD000444F5 /* ContentView.swift in Sources */,
 				15E3362A2D98BA28000444F5 /* TimelineView.swift in Sources */,
+				15F7BF402D9C6D880097736D /* Color.swift in Sources */,
 				15F28AB32D9ADC2F00428ABB /* TimelineMath.swift in Sources */,
 				15E336282D98BA1C000444F5 /* DayView.swift in Sources */,
 				156B400A2D9C1963005745E1 /* BlockLike.swift in Sources */,
@@ -389,6 +412,7 @@
 				156B40152D9C1BE2005745E1 /* Day.swift in Sources */,
 				156B400E2D9C19AB005745E1 /* Block.swift in Sources */,
 				156B400C2D9C1994005745E1 /* Task.swift in Sources */,
+				15F7BF432D9C70C70097736D /* RealmMigrationManager.swift in Sources */,
 				15C5B2562D999705008FD95A /* BlockWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

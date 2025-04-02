@@ -83,7 +83,7 @@ struct BlockView: View {
                     )
             }
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(hex: block.colorHex)))
         .onTapGesture {
             onEdit?(block)
         }

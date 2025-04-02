@@ -15,8 +15,9 @@ struct DayView: View {
         viewModel.updateBlockTime(id: id, newStart: newStart, newEnd: newEnd)
     }
 
-    private func handleSave(for block: Block) -> (Block) -> Void {
-        return { updated in
+    private func handleSave(for originalBlock: Block) -> (Block) -> Void {
+        return { updatedBlock in
+            viewModel.updateBlock(updatedBlock)
             viewModel.saveDay()
             activeBlockWrapper = nil
         }
@@ -100,7 +101,8 @@ struct DayView: View {
                 BlockCreationView(
                     block: block,
                     isNew: isNew,
-                    onSave: handleCreateBlock(for: block),
+                    onCreate: handleCreateBlock(for: block),
+                    onSave: handleSave(for: block),
                     onDelete: handleDelete(for: block)
                 )
             }

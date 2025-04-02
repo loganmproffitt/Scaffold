@@ -21,6 +21,12 @@ class DayViewModel: ObservableObject {
         dayService.saveDay(currentDay)
     }
     
+    func updateBlock(_ updatedBlock: Block) {
+        if let index = currentDay.blocks.firstIndex(where: { $0.id == updatedBlock.id }) {
+            currentDay.blocks[index] = updatedBlock
+        }
+    }
+    
     func saveDay() {
         dayService.saveDay(currentDay)  // Save the whole day (tasks + blocks)
     }

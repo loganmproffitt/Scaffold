@@ -9,5 +9,6 @@ class TaskObject: Object {
     @Persisted var isScheduled: Bool = false
     @Persisted var startTime: Date? = nil
     @Persisted var completionTime: Date? = nil
+    @Persisted var colorHex: String = "#FFCC00"
 }
 

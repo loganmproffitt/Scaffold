@@ -3,6 +3,7 @@ import SwiftUI
 struct BlockCreationView: View {
     var block: Block
     var isNew: Bool = false
+    var onCreate: (Block) -> Void
     var onSave: (Block) -> Void
     var onDelete: (() -> Void)? = nil
 
@@ -10,9 +11,10 @@ struct BlockCreationView: View {
     @State private var editableBlock: Block
     @State private var durationMinutes: Double
 
-    init(block: Block, isNew: Bool = false, onSave: @escaping (Block) -> Void, onDelete: (() -> Void)? = nil) {
+    init(block: Block, isNew: Bool = false, onCreate: @escaping (Block) -> Void,onSave: @escaping (Block) -> Void, onDelete: (() -> Void)? = nil) {
         self.block = block
         self.isNew = isNew
+        self.onCreate = onCreate
         self.onSave = onSave
         self.onDelete = onDelete
         _editableBlock = State(initialValue: block)
@@ -73,6 +75,9 @@ struct BlockCreationView: View {
 
                         Button("Save") {
                             editableBlock.duration = durationMinutes * 60
+                            if isNew {
+                                onCreate(editableBlock)
+                            }
                             onSave(editableBlock)
                             dismiss()
                         }

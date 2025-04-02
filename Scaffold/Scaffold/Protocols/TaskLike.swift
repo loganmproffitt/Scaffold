@@ -8,4 +8,5 @@ protocol TaskLike: Identifiable {
     var isScheduled: Bool { get set }
     var startTime: Date? { get set }
     var completionTime: Date? { get set }
+    var colorHex: String { get set }
 }

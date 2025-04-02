@@ -13,7 +13,8 @@ class DataMapper {
             isComplete: taskObject.isComplete,
             isScheduled: taskObject.isScheduled,
             startTime: taskObject.startTime,
-            completionTime: taskObject.completionTime
+            completionTime: taskObject.completionTime,
+            colorHex: taskObject.colorHex
         )
     }
 
@@ -29,6 +30,7 @@ class DataMapper {
             isScheduled: blockObject.isScheduled,
             startTime: blockObject.startTime,
             completionTime: blockObject.completionTime,
+            colorHex: blockObject.colorHex,
             isRigid: blockObject.isRigid,
             duration: blockObject.duration
         )
@@ -43,6 +45,7 @@ class DataMapper {
         taskObject.isScheduled = task.isScheduled
         taskObject.startTime = task.startTime
         taskObject.completionTime = task.completionTime
+        taskObject.colorHex = task.colorHex
         return taskObject
     }
 

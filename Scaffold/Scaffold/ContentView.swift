@@ -1,6 +1,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    init() {
+            RealmMigrationManager.configureMigration()
+        }
+    
     @StateObject private var viewModel = DayViewModel(
         dayService: DayService(),
         date: Date()
